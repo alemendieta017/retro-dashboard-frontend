@@ -36,6 +36,15 @@
   cursor: pointer !important;
 }
 
+/* Edit form */
+.input-card form textarea {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  width: 100%;
+  padding: 10px;
+  overflow: hidden;
+  resize: none;
+}
+
 @media (max-width: 768px) {
   .card {
     flex-direction: column;

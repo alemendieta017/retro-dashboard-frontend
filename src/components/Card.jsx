@@ -1,9 +1,10 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import styles from './Card.module.css'
 import API_URL from '../config/config'
 import PostsContext from '../Context/PostContext'
 
 const Card = (props) => {
+  const [editing, setEditing] = useState(false)
   const { posts, setPosts } = useContext(PostsContext)
 
   const handleDeleteClick = () => {
@@ -25,11 +26,22 @@ const Card = (props) => {
       })
   }
 
+  const handleEditClick = () => {
+    setEditing(editing ? false : true)
+  }
+
   return (
     <div className={styles.card}>
-      <p>{props.content}</p>
+      {editing ? (
+        <textarea value={props.content}></textarea>
+      ) : (
+        <p>{props.content}</p>
+      )}
       <div className={styles['cardButtons-container']}>
-        <span className={`material-symbols-outlined ${styles.cardButton}`}>
+        <span
+          className={`material-symbols-outlined ${styles.cardButton}`}
+          onClick={handleEditClick}
+        >
           edit
         </span>
         <div>
