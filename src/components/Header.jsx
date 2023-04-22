@@ -4,7 +4,7 @@ import './Header.module.css'
 const Header = () => {
   return (
     <header>
-      <h1>Header</h1>
+      <h1>Retrospective dashboard</h1>
     </header>
   )
 }

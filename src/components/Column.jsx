@@ -33,7 +33,11 @@ const Column = (props) => {
         />
       )}
       {props.posts[props.category]?.map((post, index) => (
-        <Card key={`${props.category}-${index}`} content={post.content} />
+        <Card
+          key={`${props.category}-${index}`}
+          content={post.content}
+          id={post._id}
+        />
       ))}
     </div>
   )
