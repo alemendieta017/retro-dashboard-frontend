@@ -36,6 +36,12 @@
   cursor: pointer !important;
 }
 
+.liked {
+  padding: 1px;
+  border-radius: 50%;
+  background-color: red;
+}
+
 /* Edit form */
 .input-card form textarea {
   font-family: Verdana, Geneva, Tahoma, sans-serif;

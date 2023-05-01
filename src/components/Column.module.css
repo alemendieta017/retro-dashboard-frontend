@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 33.33%;
   min-height: 100%;
-  background-color: lightgray;
+  background-color: #f6f7eb;
   padding: 10px;
 }
 
@@ -31,6 +31,26 @@
 
 .addButton:hover {
   background-color: rgb(100, 100, 100);
+}
+
+.colorPicker-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+
+.colorPicker {
+  position: relative;
+  border: 3px solid #fff;
+  border-radius: 10px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  content: '';
+  padding: 20px;
+}
+
+.colorPickerBlock {
+  position: absolute;
 }
 
 @media screen and (max-width: 450px) {

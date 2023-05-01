@@ -3,7 +3,12 @@ import PostsContext from '../Context/PostContext'
 import styles from './InputCard.module.css'
 import API_URL from '../config/config'
 
-const InputCard = ({ category, toggleInputCard, setToggleInputCard }) => {
+const InputCard = ({
+  category,
+  toggleInputCard,
+  setToggleInputCard,
+  color,
+}) => {
   const [input, setInput] = useState('')
   const textareaRef = React.useRef(null)
   const { posts, setPosts } = useContext(PostsContext)
@@ -46,7 +51,7 @@ const InputCard = ({ category, toggleInputCard, setToggleInputCard }) => {
   }, [input])
 
   return (
-    <div className={styles['input-card']}>
+    <div className={styles['input-card']} style={{ backgroundColor: color }}>
       <form action="#" onSubmit={handleSubmit}>
         <textarea name="content" ref={textareaRef} onChange={handleChange} />
         <div>

@@ -2,14 +2,16 @@ import React, { useState } from 'react'
 import styles from './Column.module.css'
 import Card from './Card'
 import InputCard from './InputCard'
+import { BlockPicker } from 'react-color'
 
-const Column = (props) => {
+const Column = ({ category, posts, color, setColor }) => {
   const [toggleInputCard, setToggleInputCard] = useState(false)
+  const [colorPicker, setColorPicker] = useState(false)
 
   const title =
-    props.category === 'wentWell'
+    category === 'wentWell'
       ? 'Went Well'
-      : props.category === 'toImprove'
+      : category === 'toImprove'
       ? 'To Improve'
       : 'Action Items'
 
@@ -17,26 +19,46 @@ const Column = (props) => {
     setToggleInputCard(toggleInputCard ? false : true)
   }
 
+  const toggleColorPicker = () => {
+    setColorPicker(colorPicker ? false : true)
+  }
+
   return (
     <div className={styles.column}>
       <div className={styles['column-header']}>
-        <h2>{title}</h2>
-        <div className={styles.addButton} onClick={handleAddClick}>
+        <div className={styles['colorPicker-container']}>
+          <h2>{title}</h2>
+          <div
+            className={styles.colorPicker}
+            style={{ backgroundColor: color }}
+            onClick={toggleColorPicker}
+          >
+            {colorPicker && <BlockPicker className={styles.colorPickerBlock} />}
+          </div>
+        </div>
+        <div
+          className={styles.addButton}
+          onClick={handleAddClick}
+          style={{ backgroundColor: color }}
+        >
           <span className="material-symbols-outlined">add</span>
         </div>
       </div>
       {toggleInputCard && (
         <InputCard
-          category={props.category}
+          category={category}
           toggleInputCard={toggleInputCard}
           setToggleInputCard={setToggleInputCard}
+          color={color}
         />
       )}
-      {props.posts[props.category]?.map((post, index) => (
+      {posts[category]?.map((post, index) => (
         <Card
-          key={`${props.category}-${index}`}
+          key={`${category}-${index}`}
           content={post.content}
           id={post._id}
+          likes={post.likes}
+          color={color}
         />
       ))}
     </div>
