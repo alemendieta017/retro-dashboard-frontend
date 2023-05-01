@@ -1,9 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import PostsContext from '../Context/PostContext'
 import styles from './InputCard.module.css'
 import API_URL from '../config/config'
 
-const InputCard = (props) => {
+const InputCard = ({ category, toggleInputCard, setToggleInputCard }) => {
   const [input, setInput] = useState('')
   const textareaRef = React.useRef(null)
   const { posts, setPosts } = useContext(PostsContext)
@@ -20,7 +20,7 @@ const InputCard = (props) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ content: input, category: props.category }),
+      body: JSON.stringify({ content: input, category: category }),
     })
       .then((res) => {
         return res.json()
@@ -29,19 +29,19 @@ const InputCard = (props) => {
         const newPosts = { ...posts }
         newPosts[data.category].push(data)
         setPosts(newPosts)
-        props.setToggleInputCard(!props.toggleInputCard)
+        setToggleInputCard(!toggleInputCard)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  function autoResize() {
-    textareaRef.current.style.height = 'auto'
-    textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
-  }
+  useEffect(() => {
+    function autoResize() {
+      textareaRef.current.style.height = 'auto'
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`
+    }
 
-  React.useEffect(() => {
     autoResize()
   }, [input])
 
@@ -53,7 +53,7 @@ const InputCard = (props) => {
           <span
             className="material-symbols-outlined"
             onClick={() => {
-              props.setToggleInputCard(!props.toggleInputCard)
+              setToggleInputCard(!toggleInputCard)
             }}
           >
             close
