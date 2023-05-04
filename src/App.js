@@ -55,9 +55,30 @@ function App() {
       })
     }
 
+    function handleDeleteComment(data) {
+      setPosts((prevPosts) => {
+        return {
+          ...prevPosts,
+          [data.post.category]: prevPosts[data.post.category].map((post) => {
+            if (post._id === data.post._id) {
+              return {
+                ...post,
+                comments: post.comments.filter(
+                  (comment) => comment._id !== data.commentDeleted._id
+                ),
+              }
+            }
+            return post
+          }),
+        }
+      })
+    }
+
     socket.on('newPost', handleNewPost)
     socket.on('deletePost', handleDeletePost)
     socket.on('updatePost', handleUpdatePost)
+    socket.on('newComment', handleUpdatePost)
+    socket.on('deleteComment', handleDeleteComment)
 
     fetchPosts()
 

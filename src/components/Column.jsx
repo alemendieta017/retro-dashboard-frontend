@@ -8,6 +8,18 @@ const Column = ({ category, posts, color, setColor }) => {
   const [toggleInputCard, setToggleInputCard] = useState(false)
   const [colorPicker, setColorPicker] = useState(false)
 
+  const colorsPalette = [
+    '#44BBA4',
+    '#F47373',
+    '#697689',
+    '#37D67A',
+    '#2CCCE4',
+    '#555555',
+    '#DA627D',
+    '#ff8a65',
+    '#ba68c8',
+  ]
+
   const title =
     category === 'wentWell'
       ? 'Went Well'
@@ -23,6 +35,11 @@ const Column = ({ category, posts, color, setColor }) => {
     setColorPicker(colorPicker ? false : true)
   }
 
+  const handleColorChange = (color) => {
+    setColor(color.hex)
+    setColorPicker(false)
+  }
+
   return (
     <div className={styles.column}>
       <div className={styles['column-header']}>
@@ -33,7 +50,14 @@ const Column = ({ category, posts, color, setColor }) => {
             style={{ backgroundColor: color }}
             onClick={toggleColorPicker}
           >
-            {colorPicker && <BlockPicker className={styles.colorPickerBlock} />}
+            {colorPicker && (
+              <div className={styles.colorPickerBlock}>
+                <BlockPicker
+                  onChangeComplete={handleColorChange}
+                  colors={colorsPalette}
+                />
+              </div>
+            )}
           </div>
         </div>
         <div
@@ -45,7 +69,9 @@ const Column = ({ category, posts, color, setColor }) => {
         </div>
       </div>
       {toggleInputCard && (
+        //actions are comment or create
         <InputCard
+          action="create"
           category={category}
           toggleInputCard={toggleInputCard}
           setToggleInputCard={setToggleInputCard}
@@ -59,6 +85,7 @@ const Column = ({ category, posts, color, setColor }) => {
           id={post._id}
           likes={post.likes}
           color={color}
+          comments={post.comments}
         />
       ))}
     </div>

@@ -4,6 +4,8 @@ import styles from './InputCard.module.css'
 import API_URL from '../config/config'
 
 const InputCard = ({
+  action,
+  postId,
   category,
   toggleInputCard,
   setToggleInputCard,
@@ -17,9 +19,7 @@ const InputCard = ({
     setInput(e.target.value)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-
+  function createPost() {
     fetch(API_URL + '/createPost', {
       method: 'POST',
       headers: {
@@ -39,6 +39,45 @@ const InputCard = ({
       .catch((err) => {
         console.log(err)
       })
+  }
+
+  function createComment() {
+    fetch(API_URL + '/createComment', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ postId: postId, content: input }),
+    })
+      .then((res) => {
+        return res.json()
+      })
+      .then((data) => {
+        const newPosts = { ...posts }
+        newPosts[data.category] = newPosts[data.category].map((post) => {
+          if (post._id === data._id) {
+            return data
+          } else {
+            return post
+          }
+        })
+        setPosts(newPosts)
+        setToggleInputCard(!toggleInputCard)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (action === 'create') {
+      createPost()
+    } else if (action === 'comment') {
+      createComment()
+    } else {
+      console.log('error')
+    }
   }
 
   useEffect(() => {

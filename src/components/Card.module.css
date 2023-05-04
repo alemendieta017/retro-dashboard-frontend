@@ -1,9 +1,18 @@
 .card {
   display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 10px 0;
   background-color: rgb(75, 75, 75);
   border-radius: 3px;
   padding: 10px;
+}
+
+.card-info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 
 .card span {
@@ -51,13 +60,16 @@
   resize: none;
 }
 
+.comments-container {
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+
 @media (max-width: 768px) {
-  .card {
-    flex-direction: column;
-  }
   .cardButtons-container {
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    width: 100%;
   }
 }

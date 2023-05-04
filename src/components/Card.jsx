@@ -2,10 +2,13 @@ import React, { useContext, useState } from 'react'
 import styles from './Card.module.css'
 import API_URL from '../config/config'
 import PostsContext from '../Context/PostContext'
+import InputCard from './InputCard'
+import Comment from './Comment'
 
-const Card = ({ id, content, likes, color }) => {
+const Card = ({ id, content, comments, likes, color }) => {
   const { posts, setPosts } = useContext(PostsContext)
   const [editing, setEditing] = useState(false)
+  const [comment, setComment] = useState(false)
   const [liked, setLiked] = useState(false)
 
   const toggleEdit = () => {
@@ -96,48 +99,81 @@ const Card = ({ id, content, likes, color }) => {
       })
   }
 
+  const handleCommentClick = () => {
+    setComment(!comment) // toggle comment
+  }
+
   return (
     <div className={styles.card} style={{ backgroundColor: color }}>
-      {editing ? (
-        <form onSubmit={handleEditSubmit}>
-          <textarea defaultValue={content} name="contentTextArea"></textarea>
-          <input type="submit" value="Submit" />
-          <button onClick={toggleEdit}>Cancel</button>
-        </form>
-      ) : (
-        <p>{content}</p>
-      )}
-      <div className={styles['cardButtons-container']}>
-        {!editing && (
-          <span
-            className={`material-symbols-outlined ${styles.cardButton}`}
-            onClick={toggleEdit}
-          >
-            edit
-          </span>
+      <div className={styles['card-info']}>
+        {editing ? (
+          <form onSubmit={handleEditSubmit}>
+            <textarea defaultValue={content} name="contentTextArea"></textarea>
+            <input type="submit" value="Submit" />
+            <button onClick={toggleEdit}>Cancel</button>
+          </form>
+        ) : (
+          <p>{content}</p>
         )}
-        <div>
-          <span
-            className={`material-symbols-outlined ${styles.cardButton}`}
-            onClick={handleDeleteClick}
-          >
-            close
-          </span>
-          <span
-            className={`material-symbols-outlined ${styles.cardButton} ${
-              liked && styles.liked
-            }`}
-            onClick={handleLike}
-          >
-            favorite
-          </span>
-          <span>{likes}</span>
-          <span className={`material-symbols-outlined ${styles.cardButton}`}>
-            comment
-          </span>
-          <span>0</span>
+        <div className={styles['cardButtons-container']}>
+          {!editing && (
+            <span
+              className={`material-symbols-outlined ${styles.cardButton}`}
+              onClick={toggleEdit}
+            >
+              edit
+            </span>
+          )}
+          <div>
+            <span
+              className={`material-symbols-outlined ${styles.cardButton}`}
+              onClick={handleDeleteClick}
+            >
+              close
+            </span>
+            <span
+              className={`material-symbols-outlined ${styles.cardButton} ${
+                liked && styles.liked
+              }`}
+              onClick={handleLike}
+            >
+              favorite
+            </span>
+            <span>{likes}</span>
+            <span
+              className={`material-symbols-outlined ${styles.cardButton}`}
+              onClick={handleCommentClick}
+            >
+              comment
+            </span>
+            <span>0</span>
+          </div>
         </div>
       </div>
+      <div className={styles['comments-container']}>
+        {
+          //comments
+          comments.map((comment) => {
+            return (
+              <Comment
+                key={comment._id}
+                id={comment._id}
+                comment={comment}
+                color={color}
+              />
+            )
+          })
+        }
+      </div>
+      {comment && (
+        //actions are comment or create
+        <InputCard
+          action="comment"
+          setToggleInputCard={setComment}
+          toggleInputCard={comment}
+          postId={id}
+        />
+      )}
     </div>
   )
 }
